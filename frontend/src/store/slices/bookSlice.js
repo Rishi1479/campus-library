@@ -16,7 +16,12 @@ export const getBooks = createAsyncThunk('books/getAll', async (_, thunkAPI) => 
 export const createBook = createAsyncThunk('books/create', async (bookData, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
-    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    };
     const response = await axios.post(API_URL, bookData, config);
     return response.data;
   } catch (error) {
@@ -28,7 +33,12 @@ export const createBook = createAsyncThunk('books/create', async (bookData, thun
 export const updateBook = createAsyncThunk('books/update', async ({ id, bookData }, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
-    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    };
     const response = await axios.put(API_URL + id, bookData, config);
     return response.data;
   } catch (error) {
