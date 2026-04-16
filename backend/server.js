@@ -34,7 +34,7 @@ app.use('/api/tracker', issueTrackerRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI).then(() => {
+mongoose.connect(process.env.MONGO_URI).then(() => {
   console.log('MongoDB Connected');
 }).catch(err => {
   console.error('MongoDB Connection Error:', err);

@@ -17,9 +17,7 @@ import {
   ClipboardCheck
 } from 'lucide-react';
 
-/* ─────────────────────────────────────────────
-   Slip Modal – shown after Issue OR Return
-───────────────────────────────────────────── */
+
 const SlipModal = ({ slip, onClose }) => {
   const printRef = useRef();
 
