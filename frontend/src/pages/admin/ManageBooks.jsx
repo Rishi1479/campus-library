@@ -13,7 +13,7 @@ import {
   UploadCloud
 } from 'lucide-react';
 
-const BASE_URL = 'http://localhost:5001';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const ManageBooks = () => {
   const dispatch = useDispatch();

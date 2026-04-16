@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5001/api/issues/';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/issues/`;
 
 // Issue a book (Admin only)
 export const issueBook = createAsyncThunk('issues/issueBook', async (issueData, thunkAPI) => {
