@@ -24,10 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: [
     "https://campus-library-h1siaqvaz-rishi1479s-projects.vercel.app", 
-    "https://campus-library-drab.vercel.app",
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "http://localhost:5175"
+    "https://campus-library-drab.vercel.app"
   ],
   credentials: true
 }));
