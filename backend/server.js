@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Enable CORS
 app.use(cors({
-  origin: "campus-library-h1siaqvaz-rishi1479s-projects.vercel.app",
+  origin: "https://campus-library-h1siaqvaz-rishi1479s-projects.vercel.app",
   credentials: true
 }));
 
