@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // API Base URL
-const API_URL = `${import.meta.env.VITE_API_URL}/api/auth/`;
+const API_URL = 'https://campus-library-backend-94z0.onrender.com/api/auth/';
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem('user'));

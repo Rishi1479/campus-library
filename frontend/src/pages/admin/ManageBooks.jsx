@@ -13,7 +13,7 @@ import {
   UploadCloud
 } from 'lucide-react';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'https://campus-library-backend-94z0.onrender.com';
 
 const ManageBooks = () => {
   const dispatch = useDispatch();

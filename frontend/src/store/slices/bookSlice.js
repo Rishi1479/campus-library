@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/books/`;
+const API_URL = 'https://campus-library-backend-94z0.onrender.com/api/books/';
 
 export const getBooks = createAsyncThunk('books/getAll', async (_, thunkAPI) => {
   try {
