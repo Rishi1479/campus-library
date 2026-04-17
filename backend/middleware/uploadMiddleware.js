@@ -1,10 +1,16 @@
 const multer = require('multer');
 const path = require('path');
 
+const fs = require('fs');
+
 // Set storage engine
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'uploads/'); // Make sure 'uploads' folder exists in project root
+    const dir = 'uploads/';
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
   },
   filename(req, file, cb) {
     cb(
