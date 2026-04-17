@@ -6,13 +6,15 @@ import {
   Inbox, 
   LogOut,
   Settings,
-  BookOpen
+  BookOpen,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, reset } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ role }) => {
+const Sidebar = ({ role, isMinimized, toggleSidebar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,11 +45,20 @@ const Sidebar = ({ role }) => {
   const links = role === 'admin' ? adminLinks : studentLinks;
 
   return (
-    <div className="w-64 bg-zinc-950 border-r border-white/5 flex flex-col h-screen fixed left-0 top-0">
+    <div className={`bg-zinc-950 border-r border-white/5 flex flex-col h-screen fixed left-0 top-0 transition-all duration-300 z-50 ${isMinimized ? 'w-20' : 'w-64'}`}>
+      
+      {/* Toggle Button */}
+      <button 
+        onClick={toggleSidebar} 
+        className="absolute -right-3 top-8 bg-zinc-800 border border-white/10 rounded-full p-1.5 text-zinc-400 hover:text-white transition-colors shadow-md z-50 flex items-center justify-center"
+      >
+        {isMinimized ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
+      </button>
+
       <div className="p-6">
-        <div className="flex items-center gap-3 text-primary mb-8 px-2">
-          <BookOpen className="w-8 h-8" />
-          <span className="text-xl font-bold tracking-tight text-white">CampusLib</span>
+        <div className={`flex items-center text-primary mb-8 ${isMinimized ? 'justify-center mx-auto' : 'gap-3 px-2'}`}>
+          <BookOpen className="w-8 h-8 shrink-0" />
+          {!isMinimized && <span className="text-xl font-bold tracking-tight text-white whitespace-nowrap overflow-hidden">CampusLib</span>}
         </div>
 
         <nav className="space-y-1 mt-6">
@@ -59,14 +70,15 @@ const Sidebar = ({ role }) => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+                title={isMinimized ? link.name : ''}
+                className={`flex items-center rounded-xl transition-all duration-200 group ${
                   isActive 
                   ? 'bg-primary/10 text-primary font-medium' 
                   : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-200'
-                }`}
+                } ${isMinimized ? 'p-3 justify-center' : 'px-4 py-3 gap-3'}`}
               >
-                <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : 'text-zinc-500 group-hover:text-zinc-300'}`} />
-                {link.name}
+                <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-primary' : 'text-zinc-500 group-hover:text-zinc-300'}`} />
+                {!isMinimized && <span className="whitespace-nowrap overflow-hidden">{link.name}</span>}
               </Link>
             );
           })}
@@ -74,22 +86,25 @@ const Sidebar = ({ role }) => {
       </div>
 
       <div className="mt-auto p-6 border-t border-white/5">
-        <div className="flex items-center gap-3 px-2 mb-6 cursor-pointer">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-indigo-600 flex items-center justify-center text-white font-bold">
+        <div className={`flex items-center mb-6 cursor-pointer ${isMinimized ? 'justify-center' : 'gap-3 px-2'}`}>
+          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-indigo-600 flex items-center justify-center text-white font-bold shrink-0">
             {user?.name?.charAt(0)}
           </div>
-          <div className="overflow-hidden">
-            <p className="text-sm font-medium text-white truncate w-32">{user?.name}</p>
-            <p className="text-xs text-zinc-500 capitalize">{user?.role}</p>
-          </div>
+          {!isMinimized && (
+            <div className="overflow-hidden">
+              <p className="text-sm font-medium text-white truncate w-32">{user?.name}</p>
+              <p className="text-xs text-zinc-500 capitalize">{user?.role}</p>
+            </div>
+          )}
         </div>
         
         <button 
           onClick={onLogout}
-          className="flex items-center gap-3 px-4 py-3 w-full text-left rounded-xl text-red-500/80 hover:bg-red-500/10 hover:text-red-500 transition-colors"
+          title={isMinimized ? "Sign Out" : ""}
+          className={`flex items-center rounded-xl text-red-500/80 hover:bg-red-500/10 hover:text-red-500 transition-colors w-full ${isMinimized ? 'p-3 justify-center' : 'px-4 py-3 gap-3 text-left'}`}
         >
-          <LogOut className="w-5 h-5" />
-          <span className="font-medium">Sign Out</span>
+          <LogOut className="w-5 h-5 shrink-0" />
+          {!isMinimized && <span className="font-medium whitespace-nowrap overflow-hidden">Sign Out</span>}
         </button>
       </div>
     </div>

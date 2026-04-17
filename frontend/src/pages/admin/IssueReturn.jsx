@@ -298,9 +298,14 @@ const IssueReturn = () => {
           </button>
           <button 
             onClick={() => setActiveTab('requests')}
-            className={`flex-1 py-3 text-sm font-bold uppercase tracking-wider rounded-xl transition-all ${activeTab === 'requests' ? 'bg-amber-500 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+            className={`flex-1 py-3 text-sm font-bold uppercase tracking-wider rounded-xl transition-all relative flex items-center justify-center gap-2 ${activeTab === 'requests' ? 'bg-amber-500 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
           >
             Pending Requests
+            {pendingRequests.length > 0 && (
+              <span className="bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full shadow-lg">
+                {pendingRequests.length}
+              </span>
+            )}
           </button>
           <button 
             onClick={() => setActiveTab('return')}
