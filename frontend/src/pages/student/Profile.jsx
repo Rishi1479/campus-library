@@ -44,8 +44,6 @@ const Profile = () => {
   const stats = [
     { label: 'Books Borrowed', value: issues.length, icon: BookOpen, color: 'indigo' },
     { label: 'Completed Reads', value: booksReadCount, icon: Trophy, color: 'emerald' },
-    { label: 'Pending Reviews', value: 0, icon: Edit2, color: 'amber' },
-    { label: 'Member Since', value: user?.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, { month: 'short', year: 'numeric'}) : 'Unknown', icon: CalendarDays, color: 'rose' },
   ];
 
   return (
@@ -103,16 +101,6 @@ const Profile = () => {
               <button className="w-full mt-6 bg-white hover:bg-zinc-200 text-black font-semibold py-3 rounded-xl transition-colors shadow-lg shadow-white/10">
                 Edit Profile
               </button>
-            </div>
-          </div>
-          
-          <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-primary/20 rounded-3xl p-6 flex items-start gap-4 hover:border-primary/40 transition-colors cursor-pointer group">
-            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/10 shrink-0 group-hover:scale-110 transition-transform">
-              <Award className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 className="font-bold text-white text-lg mb-1">{booksReadCount > 10 ? 'Master Scholar' : 'Apprentice Reader'}</h3>
-              <p className="text-zinc-300 text-sm">Read {Math.max(0, 10 - booksReadCount)} more books to reach the next tier.</p>
             </div>
           </div>
         </div>
