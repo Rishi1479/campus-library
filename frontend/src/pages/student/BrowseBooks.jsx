@@ -30,7 +30,7 @@ const BookCard = ({ book, index }) => {
       <div className="h-48 bg-zinc-950/50 flex flex-col items-center justify-center p-6 relative overflow-hidden group-hover:bg-zinc-950/80 transition-colors">
         {book.coverImage ? (
           <img 
-            src={`${BASE_URL}${book.coverImage}`} 
+            src={book.coverImage.startsWith('http') ? book.coverImage : `${BASE_URL}${book.coverImage}`} 
             alt={book.title} 
             className="h-full w-[100px] object-cover rounded-md z-10 shadow-lg border border-white/5"
           />

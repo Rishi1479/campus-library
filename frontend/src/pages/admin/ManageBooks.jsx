@@ -50,7 +50,7 @@ const ManageBooks = () => {
         category: book.category, totalCopies: book.totalCopies, description: book.description || ''
       });
       // Show existing cover if available
-      setCoverPreview(book.coverImage ? `${BASE_URL}${book.coverImage}` : null);
+      setCoverPreview(book.coverImage ? (book.coverImage.startsWith('http') ? book.coverImage : `${BASE_URL}${book.coverImage}`) : null);
     } else {
       setEditingBook(null);
       setFormData({ title: '', author: '', isbn: '', category: '', totalCopies: 1, description: '' });
@@ -156,7 +156,7 @@ const ManageBooks = () => {
                       {/* Cover thumbnail */}
                       {book.coverImage ? (
                         <img
-                          src={`${BASE_URL}${book.coverImage}`}
+                          src={book.coverImage.startsWith('http') ? book.coverImage : `${BASE_URL}${book.coverImage}`}
                           alt={book.title}
                           className="w-10 h-14 object-cover rounded border border-white/10 shrink-0"
                         />

@@ -1,46 +1,24 @@
 const multer = require('multer');
-const path = require('path');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
+const dotenv = require('dotenv');
 
-const fs = require('fs');
+dotenv.config();
 
-// Set storage engine
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    const dir = 'uploads/';
-    if (!fs.existsSync(dir)){
-        fs.mkdirSync(dir, { recursive: true });
-    }
-    cb(null, dir);
-  },
-  filename(req, file, cb) {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'campus-library',
+    allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });
 
-// Check file type
-function checkFileType(file, cb) {
-  // Allowed ext
-  const filetypes = /jpg|jpeg|png/;
-  // Check ext
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb('Images only! (jpg, jpeg, png)');
-  }
-}
-
-const upload = multer({
-  storage,
-  fileFilter: function (req, file, cb) {
-    checkFileType(file, cb);
-  },
-});
+const upload = multer({ storage: storage });
 
 module.exports = upload;

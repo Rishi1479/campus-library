@@ -35,7 +35,7 @@ const getBookById = async (req, res) => {
 const createBook = async (req, res) => {
   try {
     const { title, author, isbn, category, totalCopies, description } = req.body;
-    let coverImage = req.file ? `/uploads/${req.file.filename}` : '';
+    let coverImage = req.file ? req.file.path : '';
 
     const bookExists = await Book.findOne({ isbn });
 
@@ -84,7 +84,7 @@ const updateBook = async (req, res) => {
       }
 
       if (req.file) {
-        book.coverImage = `/uploads/${req.file.filename}`;
+        book.coverImage = req.file.path;
       }
 
       const updatedBook = await book.save();

@@ -168,7 +168,7 @@ const StudentDashboard = () => {
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     {book.coverImage ? (
                       <img 
-                        src={`${BASE_URL}${book.coverImage}`} 
+                        src={book.coverImage.startsWith('http') ? book.coverImage : `${BASE_URL}${book.coverImage}`} 
                         alt={book.title} 
                         className="h-full w-[80px] object-cover z-10 rounded shadow-md"
                       />
