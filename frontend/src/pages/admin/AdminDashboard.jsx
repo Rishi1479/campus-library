@@ -59,8 +59,7 @@ const AdminDashboard = () => {
     uniqueTitles: 0,
     issuedBooksCount: 0,
     availableBooksCount: 0,
-    overdueCount: 0,
-    openIssuesCount: 0
+    overdueCount: 0
   };
 
   return (
@@ -79,7 +78,6 @@ const AdminDashboard = () => {
         
         <StatCard title="Available Copies" value={data.availableBooksCount} icon={BookCopy} color="green" index={4} />
         <StatCard title="Overdue Returns" value={data.overdueCount} icon={AlertTriangle} color="red" index={5} />
-        <StatCard title="Open Bug/Requests" value={data.openIssuesCount} icon={Inbox} color="orange" index={6} />
       </div>
 
       <div className="mt-10 bg-zinc-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-8">
