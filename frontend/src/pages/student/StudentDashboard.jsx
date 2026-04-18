@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const BASE_URL = 'https://campus-library-backend-94z0.onrender.com';
+
 const StatCard = ({ title, value, icon: Icon, color, delay }) => (
   <div 
     className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 hover:bg-zinc-900/60 transition-all duration-300 animate-in slide-in-from-bottom-4 fade-in group relative overflow-hidden"
@@ -164,7 +166,15 @@ const StudentDashboard = () => {
                 <div key={book._id} className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-2xl p-5 hover:bg-zinc-900/60 transition-colors group cursor-pointer">
                   <div className="h-32 bg-zinc-950/50 rounded-xl mb-4 flex items-center justify-center border border-white/5 group-hover:border-primary/20 transition-colors overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <Library className="w-8 h-8 text-zinc-600 group-hover:text-primary transition-colors z-10" />
+                    {book.coverImage ? (
+                      <img 
+                        src={`${BASE_URL}${book.coverImage}`} 
+                        alt={book.title} 
+                        className="h-full w-[80px] object-cover z-10 rounded shadow-md"
+                      />
+                    ) : (
+                      <Library className="w-8 h-8 text-zinc-600 group-hover:text-primary transition-colors z-10" />
+                    )}
                   </div>
                   <h4 className="font-semibold text-white line-clamp-1 mb-1">{book.title}</h4>
                   <p className="text-zinc-400 text-xs mb-3 line-clamp-1">{book.author}</p>

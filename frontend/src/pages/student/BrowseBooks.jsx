@@ -11,6 +11,8 @@ import {
   Filter
 } from 'lucide-react';
 
+const BASE_URL = 'https://campus-library-backend-94z0.onrender.com';
+
 const BookCard = ({ book, index }) => {
   const isAvailable = book.availableCopies > 0;
   const dispatch = useDispatch();
@@ -26,10 +28,17 @@ const BookCard = ({ book, index }) => {
       style={{ animationDelay: `${index * 50}ms` }}
     >
       <div className="h-48 bg-zinc-950/50 flex flex-col items-center justify-center p-6 relative overflow-hidden group-hover:bg-zinc-950/80 transition-colors">
-        {/* Placeholder Cover */}
-        <div className="w-24 h-32 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-md shadow-lg flex items-center justify-center border border-white/5 z-10">
-          <Library className="w-8 h-8 text-indigo-400/50" />
-        </div>
+        {book.coverImage ? (
+          <img 
+            src={`${BASE_URL}${book.coverImage}`} 
+            alt={book.title} 
+            className="h-full w-[100px] object-cover rounded-md z-10 shadow-lg border border-white/5"
+          />
+        ) : (
+          <div className="w-24 h-32 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-md shadow-lg flex items-center justify-center border border-white/5 z-10">
+            <Library className="w-8 h-8 text-indigo-400/50" />
+          </div>
+        )}
         {/* Decorative background circle */}
         <div className="absolute bg-primary/10 w-32 h-32 rounded-full blur-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:bg-primary/20 transition-all" />
       </div>
