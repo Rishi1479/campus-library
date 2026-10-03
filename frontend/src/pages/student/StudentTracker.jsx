@@ -49,7 +49,7 @@ const StudentTracker = () => {
         </div>
       </header>
 
-      {/* Stats Summary */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
         <div className="bg-primary/10 border border-primary/20 rounded-2xl p-6 flex flex-col justify-center">
           <p className="text-primary font-semibold mb-1 uppercase tracking-wider text-xs">Total Issued</p>
@@ -87,7 +87,7 @@ const StudentTracker = () => {
             
             return (
               <div key={item._id} className="relative group">
-                {/* Timeline dot */}
+                {}
                 <div className={`absolute -left-[45px] md:-left-[61px] w-6 h-6 rounded-full border-4 border-black box-content flex items-center justify-center top-1 transition-transform group-hover:scale-110 ${
                   item.status === 'issued' && !isOverdue ? 'bg-indigo-500' :
                   isOverdue ? 'bg-orange-500' :
@@ -98,7 +98,7 @@ const StudentTracker = () => {
                    <CheckCircle2 className="w-3 h-3 text-white" />}
                 </div>
 
-                {/* Content Card */}
+                {}
                 <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 hover:bg-zinc-900/60 hover:border-white/10 transition-all shadow-xl shadow-black/10">
                   <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-6">
                     <div>

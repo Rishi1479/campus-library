@@ -29,7 +29,7 @@ const bookSchema = new mongoose.Schema({
     min: 0
   },
   coverImage: {
-    type: String, // URL/Path to image
+    type: String, 
     default: ''
   },
   description: {

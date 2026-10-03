@@ -3,9 +3,6 @@ const Book = require('../models/Book');
 const IssueRecord = require('../models/IssueRecord');
 const IssueTracker = require('../models/IssueTracker');
 
-// @desc    Get dashboard stats
-// @route   GET /api/admin/dashboard
-// @access  Private/Admin
 const getDashboardStats = async (req, res) => {
   try {
     const totalBooksCount = await Book.countDocuments();
@@ -20,7 +17,6 @@ const getDashboardStats = async (req, res) => {
 
     const issuedBooksCount = totalCopies - availableCopies;
 
-    // Overdue count (issued and due date is past today)
     const overdueCount = await IssueRecord.countDocuments({
       status: 'issued',
       dueDate: { $lt: new Date() }
@@ -41,9 +37,6 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-// @desc    Get all students
-// @route   GET /api/admin/students
-// @access  Private/Admin
 const getStudents = async (req, res) => {
   try {
     const students = await User.find({ role: 'student' }).select('-password');
@@ -53,9 +46,6 @@ const getStudents = async (req, res) => {
   }
 };
 
-// @desc    Approve student
-// @route   PUT /api/admin/students/:id/approve
-// @access  Private/Admin
 const approveStudent = async (req, res) => {
   try {
     const student = await User.findById(req.params.id);
@@ -71,9 +61,6 @@ const approveStudent = async (req, res) => {
   }
 };
 
-// @desc    Get student details + issue records
-// @route   GET /api/admin/students/:id
-// @access  Private/Admin
 const getStudentDetails = async (req, res) => {
   try {
     const student = await User.findById(req.params.id).select('-password');

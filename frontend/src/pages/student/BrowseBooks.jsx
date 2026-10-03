@@ -39,7 +39,7 @@ const BookCard = ({ book, index }) => {
             <Library className="w-8 h-8 text-indigo-400/50" />
           </div>
         )}
-        {/* Decorative background circle */}
+        {}
         <div className="absolute bg-primary/10 w-32 h-32 rounded-full blur-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:bg-primary/20 transition-all" />
       </div>
 
@@ -89,7 +89,6 @@ const BrowseBooks = () => {
     return () => { dispatch(reset()); }
   }, [dispatch]);
 
-  // Extract unique categories
   const categories = ['All', ...new Set(books.map(book => book.category))];
 
   const filteredBooks = books.filter(book => {

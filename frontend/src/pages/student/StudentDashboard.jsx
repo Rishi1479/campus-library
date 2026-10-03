@@ -48,7 +48,6 @@ const StudentDashboard = () => {
   const activeIssues = useMemo(() => issues.filter(i => i.status === 'issued'), [issues]);
   const overdueCount = useMemo(() => activeIssues.filter(i => new Date() > new Date(i.dueDate)).length, [activeIssues]);
   
-  // Calculate Due Soon (next 3 days)
   const dueSoon = useMemo(() => {
     const today = new Date();
     const threeDaysFromNow = new Date();
@@ -64,10 +63,9 @@ const StudentDashboard = () => {
     { title: 'Books Issued', value: activeIssues.length, icon: BookOpen, color: 'indigo', delay: 0 },
     { title: 'Due Soon', value: dueSoon.length, icon: Clock, color: 'amber', delay: 100 },
     { title: 'Overdue', value: overdueCount, icon: AlertTriangle, color: 'red', delay: 200 },
-    { title: 'Available Limit', value: Math.max(0, 5 - activeIssues.length), icon: CheckCircle2, color: 'emerald', delay: 300 }, // Assuming 5 max limit
+    { title: 'Available Limit', value: Math.max(0, 5 - activeIssues.length), icon: CheckCircle2, color: 'emerald', delay: 300 }, 
   ];
 
-  // Map latest 5 activities
   const recentActivity = useMemo(() => {
     return [...issues]
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -81,7 +79,6 @@ const StudentDashboard = () => {
       }));
   }, [issues]);
   
-  // Quick recommendations logic (Top 3 books by total Copies to simulate popularity)
   const recommendedBooks = useMemo(() => {
     return [...(books || [])]
       .sort((a, b) => b.totalCopies - a.totalCopies)

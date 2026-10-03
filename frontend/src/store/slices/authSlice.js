@@ -1,10 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// API Base URL
 const API_URL = 'https://campus-library-backend-94z0.onrender.com/api/auth/';
 
-// Get user from localStorage
 const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
@@ -15,7 +13,6 @@ const initialState = {
   message: '',
 };
 
-// Register user
 export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
   try {
     const response = await axios.post(API_URL + 'register', userData);
@@ -29,7 +26,6 @@ export const register = createAsyncThunk('auth/register', async (userData, thunk
   }
 });
 
-// Login user
 export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
   try {
     const response = await axios.post(API_URL + 'login', userData);
@@ -43,7 +39,6 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
   }
 });
 
-// Logout user
 export const logout = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('user');
 });

@@ -7,9 +7,6 @@ const generateToken = (id) => {
   });
 };
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
 const registerUser = async (req, res) => {
   const { name, email, password, studentId, department, role } = req.body;
 
@@ -29,7 +26,7 @@ const registerUser = async (req, res) => {
       role: assignedRole,
       studentId: assignedRole === 'student' ? studentId : undefined,
       department: assignedRole === 'student' ? department : undefined,
-      isApproved: assignedRole === 'admin' ? true : false // Admin is auto approved, students need admin approval (optional logic depending on requirements, let's say true for now to make testing easier or keep false to implement approval feature)
+      isApproved: assignedRole === 'admin' ? true : false 
     });
 
     if (user) {
@@ -49,9 +46,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Auth user & get token
-// @route   POST /api/auth/login
-// @access  Public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -59,7 +53,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-      // Check if student is approved (optional feature, but good for library)
+      
       if (user.role === 'student' && !user.isApproved) {
         return res.status(401).json({ message: 'Account pending admin approval' });
       }
@@ -79,9 +73,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-// @desc    Get user profile
-// @route   GET /api/auth/profile
-// @access  Private
 const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);

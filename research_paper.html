@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Research Paper - Campus Library Management System</title>
+<style>
+body { font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.8; margin: 0; background: #fff; color: #000; }
+.page { max-width: 820px; margin: 0 auto; padding: 60px 70px; }
+.print-tip { background:#1a1a2e; color:white; padding:12px 20px; border-radius:8px; margin-bottom:24px; font-family:Arial,sans-serif; font-size:13px; }
+h1 { font-size:16pt; text-align:center; margin-bottom:6px; }
+h2 { font-size:13pt; border-bottom:1px solid #333; padding-bottom:4px; margin-top:28px; }
+h3 { font-size:12pt; margin-top:18px; }
+h4 { font-size:11pt; margin-top:12px; }
+p { text-align:justify; margin:8px 0; }
+pre { background:#f4f4f4; padding:12px; border-left:4px solid #333; font-size:10pt; overflow-x:auto; white-space:pre-wrap; font-family:"Courier New",monospace; }
+code { font-family:"Courier New",monospace; font-size:10pt; background:#f0f0f0; padding:1px 4px; border-radius:3px; }
+pre code { background:none; padding:0; }
+table { width:100%; border-collapse:collapse; margin:16px 0; font-size:11pt; }
+td { border:1px solid #999; padding:7px 12px; }
+tr:first-child td { background:#e8e8e8; font-weight:bold; text-align:center; }
+li { margin:5px 0; margin-left:20px; }
+ul,ol { margin:8px 0; }
+hr { border:none; border-top:1px solid #ccc; margin:24px 0; }
+strong { font-weight:bold; }
+em { font-style:italic; }
+.author-section { text-align:center; margin:10px 0 24px 0; color:#333; font-size:11pt; line-height:2; }
+@media print { .print-tip { display:none; } body { font-size:11pt; } .page { padding:40px 50px; } }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="print-tip">&#128196; <strong>To save as PDF:</strong> Press <strong>Cmd + P</strong> &rarr; In the print dialog, choose <strong>"Save as PDF"</strong> &rarr; Click Save &mdash; That's it!</div>
+<br/>
+<h1>Design and Development of a Cloud-Native Campus Library Management System Using the MERN Stack</h1>
+<br/>
+<p><strong>Author:</strong> K. Sai Rishwanth Reddy</p>
+<p><strong>Department:</strong> Computer Science and Engineering</p>
+<p><strong>Institution:</strong> [Your Institution Name]</p>
+<p><strong>Email:</strong> [Your Email]</p>
+<br/>
+<hr/>
+<br/>
+<h2>Abstract</h2>
+<br/>
+<p>Library management in academic institutions has historically depended on manual, paper-based workflows that are inefficient, error-prone, and difficult to scale. This paper presents the design, development, and cloud deployment of a <strong>Campus Library Management System (CLMS)</strong> built using the MERN stack — MongoDB, Express.js, React.js, and Node.js. The system digitizes the complete library operation cycle, including book inventory management, student-facing cataloguing, book issuance and return, automated fine calculation, and a student grievance ticketing module. A dual-role architecture is enforced through JWT-based stateless authentication and role-based access control (RBAC) middleware. Cloudinary is integrated for persistent cloud image storage, solving the ephemeral filesystem problem common in cloud-hosted deployments. The system is deployed at zero cost on Render (backend), Vercel (frontend), and MongoDB Atlas (database), making it immediately viable for institutions of any size. Results demonstrate a fully functional production system with end-to-end automation of library workflows. Future work includes mobile application development, online fine payment integration, and an AI-based book recommendation engine.</p>
+<br/>
+<p><strong>Keywords:</strong> Library Management System, MERN Stack, JWT Authentication, RBAC, Cloudinary, REST API, MongoDB, Cloud Deployment, Academic Library Automation.</p>
+<br/>
+<hr/>
+<br/>
+<h2>I. Introduction</h2>
+<br/>
+<p>Academic libraries form the intellectual infrastructure of any educational institution. They house thousands of books, journals, and reference materials that are critical to student learning and faculty research. Despite this importance, the internal management of campus libraries — particularly at mid-sized colleges and universities — continues to rely on outdated manual processes. Physical registers, index cards, and handwritten records remain common tools for tracking book availability, recording borrowing transactions, and calculating overdue fines. These methods introduce a range of operational challenges: records are frequently lost or damaged, availability information is inaccessible without physical presence, fine calculations are inconsistent, and there is no formal mechanism for student-administrator communication regarding library issues.</p>
+<br/>
+<p>The proliferation of web technologies and cloud computing infrastructure over the past decade has made it feasible to replace these manual workflows with robust, automated digital systems at low or zero cost. The MERN stack — a combination of MongoDB, Express.js, React.js, and Node.js — has emerged as a leading full-stack JavaScript framework for building such systems, offering a unified development environment, a large ecosystem of open-source packages, and excellent compatibility with cloud deployment platforms.</p>
+<br/>
+<p>This paper presents the <strong>Campus Library Management System (CLMS)</strong>, a full-stack web application developed to address the limitations of traditional library management in academic settings. The system automates book inventory management, issuance workflows, return processing, and fine calculation, while introducing two novel features rarely found in campus-scale systems: a <strong>Cloudinary-integrated image persistence layer</strong> and an <strong>IssueTracker grievance management module</strong>. The system is deployed to a live production environment using industry-standard cloud platforms at zero cost, demonstrating a highly accessible and reproducible deployment model for academic institutions.</p>
+<br/>
+<p>The remainder of this paper is organized as follows: Section II reviews related work; Section III presents the system architecture; Section IV describes the implementation; Section V discusses results; and Section VI concludes with future work.</p>
+<br/>
+<hr/>
+<br/>
+<h2>II. Literature Review</h2>
+<br/>
+<p>The computerization of library management has been a subject of ongoing research and development since the 1980s. Early systems such as OPAC (Online Public Access Catalogue) and MARC (Machine-Readable Cataloging) introduced digital cataloguing that significantly reduced manual effort in large libraries [1]. However, these systems were standalone, on-premises applications with limited networking capability, requiring expensive proprietary licenses and dedicated IT infrastructure.</p>
+<br/>
+<p>The 2000s saw a shift toward web-based Integrated Library Systems (ILS). Breeding (2007) documented the growing adoption of networked library systems that enabled simultaneous multi-user access to catalogues [2]. Open-source platforms such as Koha and OpenBiblio emerged as cost-effective alternatives to proprietary systems, offering modules for cataloguing, circulation, and OPAC. However, Chowdhury and Chowdhury (2003) noted that these platforms, while comprehensive, carried steep deployment and customization learning curves that made them inaccessible to smaller institutions [3].</p>
+<br/>
+<p>The introduction of cloud computing brought significant improvements in accessibility and scalability. Aharony (2014) studied the adoption of cloud-based library services and concluded that cloud infrastructure substantially lowered operational costs and improved availability for academic libraries [4]. Concurrently, Fielding's seminal work on Representational State Transfer (REST) architecture established the API design principles that modern decoupled web applications now follow [5].</p>
+<br/>
+<p>In the domain of database technology, Han et al. (2011) conducted a comparative analysis of SQL and NoSQL databases, concluding that document-oriented databases like MongoDB are particularly suited for applications with flexible, evolving data structures — a characteristic well-aligned with library management systems [6]. The rise of React.js for building component-based single-page applications, documented extensively in industry surveys (Stack Overflow Developer Survey, 2022–2023), further validated the MERN stack as an appropriate technology choice for dynamic, data-driven dashboards.</p>
+<br/>
+<p>Security in web-based library systems has also received attention. Jones et al. (2015) demonstrated that JWT-based authentication, standardized under RFC 7519, provides a scalable, stateless alternative to session-based authentication suited for RESTful APIs [7]. Ferraiolo and Kuhn's foundational work on Role-Based Access Control (RBAC) established the access management model applied in this system to enforce dual-role privilege separation [8].</p>
+<br/>
+<p>Despite the body of existing work, a gap remains for lightweight, zero-cost, cloud-native library systems that integrate modern image storage, student grievance management, and automated fine calculation in a single deployable package tailored for campus-scale academic institutions — a gap this project addresses directly.</p>
+<br/>
+<hr/>
+<br/>
+<h2>III. System Architecture</h2>
+<br/>
+<h3>A. Three-Tier Architecture</h3>
+<br/>
+<p>The CLMS follows a classic three-tier client-server architecture, separating concerns across three distinct layers:</p>
+<br/>
+<li><strong>Presentation Layer (Frontend):</strong> A React.js single-page application bootstrapped with Vite, deployed on Vercel. Provides separate dashboards for students and administrators, consuming backend APIs via HTTP requests.</li>
+<br/>
+<li><strong>Application Logic Layer (Backend):</strong> A Node.js/Express.js RESTful API server hosted on Render, handling all business logic — authentication, book management, issuance workflows, fine calculation, and grievance management.</li>
+<br/>
+<li><strong>Data Layer:</strong> MongoDB Atlas (cloud-hosted NoSQL database) for persistent application data, accessed via the Mongoose ODM. Cloudinary serves as a specialized media storage layer for book cover images.</li>
+<br/>
+<h3>B. Database Schema Design</h3>
+<br/>
+<p>The system defines five Mongoose schemas forming the data backbone:</p>
+<br/>
+<table>
+<tr><td>Collection</td><td>Key Fields</td></tr>
+<tr><td>**User**</td><td>name, email, password (hashed), role (student/admin), studentId, department, isApproved</td></tr>
+<tr><td>**Book**</td><td>title, author, ISBN (unique), category, totalCopies, availableCopies, coverImage (Cloudinary URL)</td></tr>
+<tr><td>**IssueRecord**</td><td>book (ref), student (ref), issueDate, dueDate, returnDate, status (requested/issued/returned/overdue), fine</td></tr>
+<tr><td>**IssueTracker**</td><td>student (ref), type, description, status (open/in_progress/resolved), priority, adminReply</td></tr>
+<tr><td>**Fine**</td><td>student (ref), issueRecord (ref), amount, status (paid/unpaid), paymentDate</td></tr>
+</table>
+<br/>
+<p>Cross-collection references are implemented via MongoDB ObjectId with Mongoose populate(), enabling efficient JOIN-like queries without data duplication.</p>
+<br/>
+<h3>C. API Design</h3>
+<br/>
+<p>The backend exposes five RESTful API route groups:</p>
+<br/>
+<table>
+<tr><td>Route Prefix</td><td>Purpose</td></tr>
+<tr><td>`/api/auth`</td><td>Registration, login, JWT token issuance</td></tr>
+<tr><td>`/api/books`</td><td>Book CRUD, Cloudinary image upload</td></tr>
+<tr><td>`/api/issues`</td><td>Book request, approval, return, fine calculation</td></tr>
+<tr><td>`/api/tracker`</td><td>IssueTracker grievance management</td></tr>
+<tr><td>`/api/admin`</td><td>Admin dashboard, student management</td></tr>
+</table>
+<br/>
+<p>All routes follow standard HTTP semantics (GET, POST, PUT, DELETE) and return JSON responses with appropriate HTTP status codes.</p>
+<br/>
+<h3>D. Security Architecture</h3>
+<br/>
+<p>Security is enforced at two middleware layers:</p>
+<li><strong><code>protect</code> middleware:</strong> Extracts and verifies the JWT from the Authorization header using the server-side <code>JWT_SECRET</code>. Attaches the decoded user object to <code>req.user</code> for downstream controllers.</li>
+<li><strong><code>admin</code> middleware:</strong> Checks <code>req.user.role === 'admin'</code>, returning HTTP 403 for unauthorized access attempts. Both middleware functions are composed in series on protected administrative routes.</li>
+<br/>
+<hr/>
+<br/>
+<h2>IV. Implementation</h2>
+<br/>
+<h3>A. Backend Development</h3>
+<br/>
+<p>The backend is developed in Node.js using Express.js v5, following the MVC (Model-View-Controller) pattern. The server entry point (<code>server.js</code>) initializes Express, configures CORS with production frontend URLs whitelisted, mounts all route modules, and establishes the MongoDB Atlas connection via Mongoose. Key dependencies include:</p>
+<br/>
+<li><strong>bcryptjs</strong> (v3.0.3): Password hashing with salt factor 10, applied via a Mongoose <code>pre('save')</code> hook.</li>
+<li><strong>jsonwebtoken</strong> (v9.0.3): JWT generation on login and verification on every protected request.</li>
+<li><strong>multer + multer-storage-cloudinary</strong>: File upload middleware that streams images directly to Cloudinary, returning a persistent public URL stored in the Book document.</li>
+<li><strong>nodemailer</strong> (v8.0.5): Email notification foundation for future enhancement.</li>
+<br/>
+<p>Controllers implement <code>async/await</code> patterns with <code>try/catch</code> blocks, returning standardized JSON error responses with appropriate HTTP status codes.</p>
+<br/>
+<h3>B. Book Issuance and Fine Calculation Logic</h3>
+<br/>
+<p>The issuance lifecycle is managed through atomic state transitions in the <code>IssueRecord</code> collection. When a student submits a book request (<code>POST /api/issues/request</code>), a new IssueRecord is created with <code>status: 'requested'</code>. Upon admin approval (<code>PUT /api/issues/:id/approve</code>), the status transitions to <code>'issued'</code>, the <code>issueDate</code> is set to the current timestamp, and the <code>dueDate</code> is automatically calculated as 14 days from approval. The book's <code>availableCopies</code> is decremented at this point.</p>
+<br/>
+<p>Fine calculation is executed during return processing (<code>PUT /api/issues/:id/return</code>):</p>
+<br/>
+<pre><code>
+const returnDate = new Date();
+if (returnDate &gt; issueRecord.dueDate) {
+  const diffTime = Math.abs(returnDate - issueRecord.dueDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  fineAmount = diffDays * 1; // ₹1 per overdue day
+}
+</code></pre>
+<br/>
+<p>This computation is deterministic and fully automated, requiring no manual input from the administrator.</p>
+<br/>
+<h3>C. Cloudinary Integration</h3>
+<br/>
+<p>Book cover images are uploaded via a Multer middleware pipeline configured with CloudinaryStorage:</p>
+<br/>
+<pre><code>
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'campus-library',
+    allowed_formats: ['jpg', 'png', 'jpeg'],
+  },
+});
+const upload = multer({ storage });
+</code></pre>
+<br/>
+<p>The Cloudinary SDK is initialized from environment variables (<code>CLOUDINARY_CLOUD_NAME</code>, <code>CLOUDINARY_API_KEY</code>, <code>CLOUDINARY_API_SECRET</code>), ensuring no credentials are exposed in the codebase. Cloudinary returns a persistent CDN-hosted URL that is stored in the <code>coverImage</code> field of the Book document — eliminating all dependency on the server's local ephemeral filesystem.</p>
+<br/>
+<h3>D. Frontend Development</h3>
+<br/>
+<p>The frontend is built with React.js (Vite), implementing separate dashboards for students and administrators. The student dashboard provides book browsing with real-time availability status, request submission, borrowing history, and fine tracking. The admin dashboard provides full book inventory management (add/edit/delete with image upload), student approval management, issue request processing (approve/reject), return recording, and IssueTracker grievance management with reply capability. API communication is handled via the browser's native <code>fetch</code> API, with JWT tokens stored in <code>localStorage</code> and attached to all authenticated requests via the <code>Authorization: Bearer</code> header.</p>
+<br/>
+<hr/>
+<br/>
+<h2>V. Results and Discussion</h2>
+<br/>
+<p>The Campus Library Management System was successfully developed, tested, and deployed to a live production environment. The following outcomes were achieved:</p>
+<br/>
+<p><strong>Functional Completeness:</strong> All six core modules — authentication, book management, issuance, return, fine calculation, and grievance management — were implemented and verified through end-to-end testing across both student and admin roles.</p>
+<br/>
+<p><strong>Security Verification:</strong> JWT-based authentication and RBAC middleware were validated by confirming that admin-only routes return HTTP 403 when accessed with a student token, and HTTP 401 when accessed without a token.</p>
+<br/>
+<p><strong>Image Persistence:</strong> Cloudinary integration was verified by confirming that book cover images remained accessible after multiple server restarts and redeployments on Render — a critical test that local filesystem storage fails.</p>
+<br/>
+<p><strong>Automated Fine Accuracy:</strong> Fine calculation was verified against multiple test cases with known overdue periods, confirming that the computed fine amount exactly matched the expected ₹1/day formula.</p>
+<br/>
+<p><strong>Comparative Advantage:</strong> The table below summarizes how the CLMS compares to typical campus-level library systems:</p>
+<br/>
+<table>
+<tr><td>Feature</td><td>CLMS (This Project)</td><td>Typical Campus LMS</td></tr>
+<tr><td>Cloud image storage</td><td>✅ Cloudinary</td><td>❌ Rarely</td></tr>
+<tr><td>Admin student approval</td><td>✅ Yes</td><td>❌ No</td></tr>
+<tr><td>Grievance/IssueTracker</td><td>✅ Yes</td><td>❌ No</td></tr>
+<tr><td>JWT + RBAC middleware</td><td>✅ Yes</td><td>⚠️ Partial</td></tr>
+<tr><td>Automated fine calc</td><td>✅ Yes</td><td>⚠️ Sometimes</td></tr>
+<tr><td>Zero-cost cloud deployment</td><td>✅ Yes</td><td>❌ Usually costly</td></tr>
+<tr><td>Real-time copy tracking</td><td>✅ Yes</td><td>⚠️ Manual</td></tr>
+</table>
+<br/>
+<p><strong>Deployment:</strong> The system operates continuously on its live production URLs with no recurring infrastructure cost, confirming the viability of the zero-cost cloud deployment model.</p>
+<br/>
+<hr/>
+<br/>
+<h2>VI. Conclusion and Future Work</h2>
+<br/>
+<p>This paper presented the design, implementation, and deployment of the Campus Library Management System — a MERN stack-based web application that fully automates the operational workflows of an academic campus library. The system successfully addresses the inefficiencies of traditional library management through a cloud-native, modular architecture that delivers secure role-based access, automated fine calculation, real-time inventory management, persistent cloud image storage, and a built-in student grievance system.</p>
+<br/>
+<p>The zero-cost deployment model — built entirely on open-source technologies and free-tier cloud services — makes this system practically adoptable by academic institutions regardless of their IT budget, distinguishing it from both expensive proprietary solutions and complex open-source alternatives like Koha.</p>
+<br/>
+<p>Future directions for this work include:</p>
+<li><strong>Mobile Application</strong> — React Native cross-platform app with push notifications via Firebase.</li>
+<li><strong>Email/SMS Notifications</strong> — Automated alerts for due dates, approvals, and fine reminders.</li>
+<li><strong>Online Fine Payment</strong> — Razorpay or Stripe payment gateway integration.</li>
+<li><strong>Analytics Dashboard</strong> — Visual reports on borrowing trends and fine collections using Chart.js.</li>
+<li><strong>QR Code Book Tracking</strong> — Physical book scanning for faster issuance and return processing.</li>
+<li><strong>AI Recommendation Engine</strong> — Personalized book suggestions based on borrowing history.</li>
+<br/>
+<hr/>
+<br/>
+<h2>References</h2>
+<br/>
+<p>[1] Library of Congress, "Understanding MARC Bibliographic: Machine-Readable Cataloging," 3rd ed., 1998.</p>
+<br/>
+<p>[2] M. Breeding, "Introduction to Open Source Integrated Library Systems," <em>Library Technology Reports</em>, vol. 43, no. 2, pp. 5–11, 2007.</p>
+<br/>
+<p>[3] G. G. Chowdhury and S. Chowdhury, <em>Introduction to Digital Libraries</em>. London: Facet Publishing, 2003.</p>
+<br/>
+<p>[4] N. Aharony, "Librarians' Attitudes Toward Cloud Computing," <em>College and Research Libraries</em>, vol. 75, no. 2, pp. 217–231, 2014.</p>
+<br/>
+<p>[5] R. T. Fielding, "Architectural Styles and the Design of Network-Based Software Architectures," Ph.D. dissertation, Univ. of California, Irvine, 2000.</p>
+<br/>
+<p>[6] J. Han, E. Haihong, G. Le, and J. Du, "Survey on NoSQL Database," in <em>Proc. 6th Int. Conf. Pervasive Computing and Applications</em>, 2011, pp. 363–366.</p>
+<br/>
+<p>[7] M. Jones, J. Bradley, and N. Sakimura, "JSON Web Token (JWT)," IETF RFC 7519, May 2015.</p>
+<br/>
+<p>[8] D. F. Ferraiolo and D. R. Kuhn, "Role-Based Access Controls," in <em>Proc. 15th NIST-NCSC National Computer Security Conf.</em>, 1992, pp. 554–563.</p>
+<br/>
+<p>[9] Stack Overflow, "Developer Survey 2023," Stack Overflow, 2023. [Online]. Available: https://survey.stackoverflow.co/2023</p>
+<br/>
+<p>[10] Cloudinary, "Cloudinary Documentation — Node.js SDK," 2023. [Online]. Available: https://cloudinary.com/documentation/node_integration</p>
+<br/>
+<hr/>
+<p><em>© 2025 K. Sai Rishwanth Reddy. All Rights Reserved.</em></p>
+<br/></div></body></html>

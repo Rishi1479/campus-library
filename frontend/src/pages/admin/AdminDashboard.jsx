@@ -53,7 +53,6 @@ const AdminDashboard = () => {
     );
   }
 
-  // Fallback defaults if stats are null initially
   const data = stats || {
     totalBooks: 0,
     uniqueTitles: 0,
@@ -82,7 +81,7 @@ const AdminDashboard = () => {
 
       <div className="mt-10 bg-zinc-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-8">
          <h2 className="text-2xl font-bold tracking-tight mb-6">Recent Activity</h2>
-         {/* Placeholder for dynamic recent activity feed */}
+         {}
          <div className="space-y-4">
             <div className="flex gap-4 items-start p-4 bg-black/40 rounded-2xl border border-white/5">
                 <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">

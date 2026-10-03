@@ -26,9 +26,8 @@ const ManageBooks = () => {
     title: '', author: '', isbn: '', category: '', totalCopies: 1, description: ''
   });
 
-  // Cover image state
-  const [coverFile, setCoverFile]       = useState(null);   // File object
-  const [coverPreview, setCoverPreview] = useState(null);   // Data-URL for preview
+  const [coverFile, setCoverFile]       = useState(null);   
+  const [coverPreview, setCoverPreview] = useState(null);   
   const fileInputRef = useRef();
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const ManageBooks = () => {
     b.isbn?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  /* ── Open modal ─────────────────────────── */
   const openModal = (book = null) => {
     if (book) {
       setEditingBook(book);
@@ -49,7 +47,7 @@ const ManageBooks = () => {
         title: book.title, author: book.author, isbn: book.isbn || '', 
         category: book.category, totalCopies: book.totalCopies, description: book.description || ''
       });
-      // Show existing cover if available
+      
       setCoverPreview(book.coverImage ? (book.coverImage.startsWith('http') ? book.coverImage : `${BASE_URL}${book.coverImage}`) : null);
     } else {
       setEditingBook(null);
@@ -60,7 +58,6 @@ const ManageBooks = () => {
     setIsModalOpen(true);
   };
 
-  /* ── Cover file picker ──────────────────── */
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -80,11 +77,9 @@ const ManageBooks = () => {
     reader.readAsDataURL(file);
   };
 
-  /* ── Submit ─────────────────────────────── */
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Build FormData so multer gets the file
     const data = new FormData();
     Object.entries(formData).forEach(([key, val]) => data.append(key, val));
     if (coverFile) data.append('coverImage', coverFile);
@@ -153,7 +148,7 @@ const ManageBooks = () => {
                 ) : filteredBooks.map((book) => (
                   <tr key={book._id} className="hover:bg-white/[0.02] transition-colors group">
                     <td className="p-4 flex items-center gap-3">
-                      {/* Cover thumbnail */}
+                      {}
                       {book.coverImage ? (
                         <img
                           src={book.coverImage.startsWith('http') ? book.coverImage : `${BASE_URL}${book.coverImage}`}
@@ -195,7 +190,7 @@ const ManageBooks = () => {
         </div>
       )}
 
-      {/* ── Modal ─────────────────────────────── */}
+      {}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-zinc-950 border border-white/10 rounded-3xl w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 my-4">
@@ -208,7 +203,7 @@ const ManageBooks = () => {
             
             <form onSubmit={handleSubmit} className="p-6 space-y-5">
 
-              {/* ── Cover Image Upload ───────── */}
+              {}
               <div className="space-y-2">
                 <label className="text-xs uppercase font-semibold text-zinc-500 tracking-wider flex items-center gap-1.5">
                   <ImagePlus className="w-3.5 h-3.5" /> Cover Photo
@@ -222,7 +217,7 @@ const ManageBooks = () => {
                     ${coverPreview ? 'border-primary/40 bg-primary/5' : 'border-white/10 bg-zinc-900 hover:border-primary/40 hover:bg-primary/5'}`}
                 >
                   {coverPreview ? (
-                    /* Preview */
+                    
                     <div className="flex items-center gap-5 p-4">
                       <img
                         src={coverPreview}
@@ -240,7 +235,7 @@ const ManageBooks = () => {
                         )}
                         <p className="text-primary text-xs mt-2 font-medium">Click or drag to replace</p>
                       </div>
-                      {/* Remove button */}
+                      {}
                       <button
                         type="button"
                         onClick={(e) => {
@@ -255,7 +250,7 @@ const ManageBooks = () => {
                       </button>
                     </div>
                   ) : (
-                    /* Empty drop zone */
+                    
                     <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
                       <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors">
                         <UploadCloud className="w-6 h-6 text-zinc-500 group-hover:text-primary transition-colors" />
@@ -270,7 +265,7 @@ const ManageBooks = () => {
                   )}
                 </div>
 
-                {/* Hidden file input */}
+                {}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -280,7 +275,7 @@ const ManageBooks = () => {
                 />
               </div>
 
-              {/* ── Text fields ─────────────── */}
+              {}
               <div className="space-y-1">
                 <label className="text-xs uppercase font-semibold text-zinc-500 tracking-wider">Title</label>
                 <input required type="text" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />

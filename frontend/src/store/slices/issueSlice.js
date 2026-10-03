@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const API_URL = 'https://campus-library-backend-94z0.onrender.com/api/issues/';
 
-// Issue a book (Admin only)
 export const issueBook = createAsyncThunk('issues/issueBook', async (issueData, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
@@ -16,7 +15,6 @@ export const issueBook = createAsyncThunk('issues/issueBook', async (issueData, 
   }
 });
 
-// Request a book (Student only)
 export const requestBook = createAsyncThunk('issues/requestBook', async (requestData, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
@@ -29,7 +27,6 @@ export const requestBook = createAsyncThunk('issues/requestBook', async (request
   }
 });
 
-// Approve a book request (Admin only)
 export const approveIssueRequest = createAsyncThunk('issues/approveIssueRequest', async (id, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
@@ -42,20 +39,18 @@ export const approveIssueRequest = createAsyncThunk('issues/approveIssueRequest'
   }
 });
 
-// Return a book (Admin only)
 export const returnBook = createAsyncThunk('issues/returnBook', async (id, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const response = await axios.put(API_URL + `${id}/return`, {}, config);
-    return response.data; // Returned issueRecord with fines
+    return response.data; 
   } catch (error) {
     const message = (error.response?.data?.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-// Get all issues (Admin only)
 export const getIssues = createAsyncThunk('issues/getAll', async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
@@ -68,7 +63,6 @@ export const getIssues = createAsyncThunk('issues/getAll', async (_, thunkAPI) =
   }
 });
 
-// Get my issues (Student view)
 export const getMyIssues = createAsyncThunk('issues/getMyIssues', async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
@@ -84,7 +78,7 @@ export const getMyIssues = createAsyncThunk('issues/getMyIssues', async (_, thun
 const issueSlice = createSlice({
   name: 'issue',
   initialState: {
-    issues: [], // Used for both admin (all) and student (my issues)
+    issues: [], 
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -100,7 +94,7 @@ const issueSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // getIssues (Admin)
+      
       .addCase(getIssues.pending, (state) => { state.isLoading = true; })
       .addCase(getIssues.fulfilled, (state, action) => {
         state.isLoading = false; state.issues = action.payload; state.isSuccess = true;
@@ -108,7 +102,7 @@ const issueSlice = createSlice({
       .addCase(getIssues.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // getMyIssues (Student)
+      
       .addCase(getMyIssues.pending, (state) => { state.isLoading = true; })
       .addCase(getMyIssues.fulfilled, (state, action) => {
         state.isLoading = false; state.issues = action.payload; state.isSuccess = true;
@@ -116,7 +110,7 @@ const issueSlice = createSlice({
       .addCase(getMyIssues.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // issueBook
+      
       .addCase(issueBook.pending, (state) => { state.isLoading = true; })
       .addCase(issueBook.fulfilled, (state, action) => {
         state.isLoading = false; state.isSuccess = true; state.issues.unshift(action.payload);
@@ -124,7 +118,7 @@ const issueSlice = createSlice({
       .addCase(issueBook.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // returnBook
+      
       .addCase(returnBook.pending, (state) => { state.isLoading = true; })
       .addCase(returnBook.fulfilled, (state, action) => {
         state.isLoading = false; state.isSuccess = true;
@@ -133,7 +127,7 @@ const issueSlice = createSlice({
       .addCase(returnBook.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // requestBook
+      
       .addCase(requestBook.pending, (state) => { state.isLoading = true; })
       .addCase(requestBook.fulfilled, (state, action) => {
         state.isLoading = false; state.isSuccess = true; 
@@ -142,7 +136,7 @@ const issueSlice = createSlice({
       .addCase(requestBook.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // approveIssueRequest
+      
       .addCase(approveIssueRequest.pending, (state) => { state.isLoading = true; })
       .addCase(approveIssueRequest.fulfilled, (state, action) => {
         state.isLoading = false; state.isSuccess = true;

@@ -9,7 +9,6 @@ const connectDB = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB Connected!');
 
-    // Check if admin exists
     const adminExists = await User.findOne({ email: 'admin@library.com' });
     
     if (!adminExists) {

@@ -45,7 +45,7 @@ const StudentDetails = () => {
   };
 
   const calculateFine = (dueDate, returnDate, status) => {
-    if (status === 'returned') return 'Paid'; // Real fine handled in backend
+    if (status === 'returned') return 'Paid'; 
     const today = new Date();
     const targetDate = new Date(dueDate);
     if (today > targetDate) {
@@ -70,7 +70,7 @@ const StudentDetails = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Profile Card */}
+        {}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl opacity-50" />
@@ -116,7 +116,7 @@ const StudentDetails = () => {
           </div>
         </div>
 
-        {/* Issue Statistics & History */}
+        {}
         <div className="lg:col-span-2 space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div className="bg-primary/10 border border-primary/20 rounded-3xl p-6">

@@ -22,7 +22,6 @@ const Profile = () => {
     dispatch(getMyIssues());
   }, [dispatch]);
 
-  // Derived Stats
   const booksReadCount = issues.filter(i => i.status === 'returned').length;
   
   const favoriteCategories = useMemo(() => {
@@ -38,7 +37,7 @@ const Profile = () => {
       percentage: Math.round((categoriesMap[key] / (issues.length || 1)) * 100)
     }));
     
-    return arr.sort((a, b) => b.count - a.count).slice(0, 4); // top 4 classes
+    return arr.sort((a, b) => b.count - a.count).slice(0, 4); 
   }, [issues]);
 
   const stats = [
@@ -58,7 +57,7 @@ const Profile = () => {
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Left Column - User Details Card */}
+        {}
         <div className="lg:col-span-1 space-y-8">
           <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden group">
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity" />
@@ -105,10 +104,10 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Right Column - Stats & History */}
+        {}
         <div className="lg:col-span-2 space-y-8">
           
-          {/* Stats Grid */}
+          {}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, i) => {
               const Icon = stat.icon;
@@ -128,7 +127,7 @@ const Profile = () => {
             })}
           </div>
 
-          {/* Activity Breakdown */}
+          {}
           <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8">
              <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/5">
                 <BookMarked className="w-6 h-6 text-primary" />

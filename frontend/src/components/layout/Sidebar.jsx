@@ -47,7 +47,7 @@ const Sidebar = ({ role, isMinimized, toggleSidebar }) => {
   return (
     <div className={`bg-zinc-950 border-r border-white/5 flex flex-col h-screen fixed left-0 top-0 transition-all duration-300 z-50 ${isMinimized ? 'w-20' : 'w-64'}`}>
       
-      {/* Toggle Button */}
+      {}
       <button 
         onClick={toggleSidebar} 
         className="absolute -right-3 top-8 bg-zinc-800 border border-white/10 rounded-full p-1.5 text-zinc-400 hover:text-white transition-colors shadow-md z-50 flex items-center justify-center"

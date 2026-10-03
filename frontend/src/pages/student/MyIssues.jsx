@@ -23,8 +23,7 @@ const MyIssues = () => {
   }, [dispatch]);
   
   const handleReturn = (id) => {
-    // Return flow from student side usually isn't direct in library systems. They submit at kiosk.
-    // So this button serves as a reminder or "request return" dummy logic.
+    
     alert('Please visit the admin desk to physically return this book and pay any applicable fines.');
   };
 

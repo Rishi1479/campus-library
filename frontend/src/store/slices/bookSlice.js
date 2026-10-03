@@ -52,7 +52,7 @@ export const deleteBook = createAsyncThunk('books/delete', async (id, thunkAPI) 
     const token = thunkAPI.getState().auth.user.token;
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const response = await axios.delete(API_URL + id, config);
-    return id; // return id so we can filter it from state
+    return id; 
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);

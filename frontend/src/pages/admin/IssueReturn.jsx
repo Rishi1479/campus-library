@@ -17,7 +17,6 @@ import {
   ClipboardCheck
 } from 'lucide-react';
 
-
 const SlipModal = ({ slip, onClose }) => {
   const printRef = useRef();
 
@@ -62,7 +61,7 @@ const SlipModal = ({ slip, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
       <div className="relative bg-zinc-900 border border-white/10 rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
 
-        {/* Close */}
+        {}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors z-10"
@@ -70,7 +69,7 @@ const SlipModal = ({ slip, onClose }) => {
           <X className="w-5 h-5" />
         </button>
 
-        {/* Slip preview */}
+        {}
         <div className="p-8 pb-4">
           <div className="flex items-center justify-center gap-2 mb-1">
             <ClipboardCheck className={`w-5 h-5 ${isReturn ? 'text-emerald-400' : 'text-indigo-400'}`} />
@@ -80,7 +79,7 @@ const SlipModal = ({ slip, onClose }) => {
           </div>
           <p className="text-center text-zinc-600 text-xs mb-6">Show this slip at the library exit gate</p>
 
-          {/* Printable content */}
+          {}
           <div ref={printRef}>
             <div className="slip-header" style={{textAlign:'center', borderBottom:'2px dashed #555', paddingBottom:'12px', marginBottom:'16px'}}>
               <h1 style={{fontSize:'18px', fontWeight:900, color:'#e5e7eb', letterSpacing:'1px'}}>📚 CAMPUS LIBRARY</h1>
@@ -98,7 +97,7 @@ const SlipModal = ({ slip, onClose }) => {
               </span>
             </div>
 
-            {/* Rows */}
+            {}
             {[
               { label: 'Student Name', value: slip.studentName },
               { label: 'Roll Number',  value: slip.rollNumber  },
@@ -140,7 +139,7 @@ const SlipModal = ({ slip, onClose }) => {
           </div>
         </div>
 
-        {/* Actions */}
+        {}
         <div className="flex gap-3 px-8 pb-8 mt-2">
           <button
             onClick={handlePrint}
@@ -165,9 +164,6 @@ const SlipModal = ({ slip, onClose }) => {
   );
 };
 
-/* ─────────────────────────────────────────────
-   Main Component
-───────────────────────────────────────────── */
 const IssueReturn = () => {
   const dispatch = useDispatch();
   
@@ -177,14 +173,11 @@ const IssueReturn = () => {
 
   const [activeTab, setActiveTab] = useState('issue');
   
-  // Issue Form State
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedBook, setSelectedBook] = useState('');
 
-  // Return Search State
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Slip modal state
   const [slip, setSlip] = useState(null);
 
   useEffect(() => {
@@ -194,7 +187,6 @@ const IssueReturn = () => {
     return () => { dispatch(resetIssueState()); };
   }, [dispatch]);
 
-  // ── Issue handler ──────────────────────────
   const handleIssueSubmit = async (e) => {
     e.preventDefault();
     if (!selectedStudent || !selectedBook) return alert('Select both student and book');
@@ -206,7 +198,6 @@ const IssueReturn = () => {
 
     await dispatch(issueBook({ studentId: selectedStudent, bookId: selectedBook }));
 
-    // Show slip
     setSlip({
       type: 'issue',
       studentName: student?.name        || '—',
@@ -223,7 +214,6 @@ const IssueReturn = () => {
     setActiveTab('return');
   };
 
-  // ── Return handler ─────────────────────────
   const handleReturnAction = async (issue) => {
     if (!window.confirm('Confirm return and calculate fine?')) return;
 
@@ -253,7 +243,6 @@ const IssueReturn = () => {
     if (!window.confirm('Approve this book request?')) return;
     await dispatch(approveIssueRequest(req._id));
 
-    // Find full student/book objects from store
     const student = students.find(s => s._id === (req.student?._id || req.student));
     const book    = books.find(b => b._id === (req.book?._id || req.book));
     const issueDate = new Date().toLocaleDateString();
@@ -279,7 +268,7 @@ const IssueReturn = () => {
 
   return (
     <>
-      {/* Slip Modal */}
+      {}
       {slip && <SlipModal slip={slip} onClose={() => setSlip(null)} />}
 
       <div className="space-y-6 pb-10 max-w-6xl mx-auto">
@@ -288,7 +277,7 @@ const IssueReturn = () => {
           <p className="text-zinc-400">Manually issue a book or process a student return</p>
         </header>
 
-        {/* Tabs */}
+        {}
         <div className="flex p-1 bg-zinc-900 border border-white/5 rounded-2xl w-full max-w-2xl mx-auto mb-8">
           <button 
             onClick={() => setActiveTab('issue')}
@@ -318,7 +307,7 @@ const IssueReturn = () => {
         <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-10 shadow-xl overflow-hidden relative min-h-[400px]">
           {isLoading && <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm z-50 flex items-center justify-center"><Loader2 className="w-10 h-10 animate-spin text-primary" /></div>}
 
-          {/* ── Issue Tab ──────────────────── */}
+          {}
           {activeTab === 'issue' && (
             <div className="max-w-2xl mx-auto space-y-8 animate-in slide-in-from-right-8 duration-300">
               <div className="text-center mb-8">
@@ -374,7 +363,7 @@ const IssueReturn = () => {
             </div>
           )}
 
-          {/* ── Pending Requests Tab ───────── */}
+          {}
           {activeTab === 'requests' && (
             <div className="animate-in slide-in-from-bottom-8 duration-300">
               <h2 className="text-2xl font-bold text-white mb-8">Pending Book Requests</h2>
@@ -415,7 +404,7 @@ const IssueReturn = () => {
             </div>
           )}
 
-          {/* ── Return Tab ─────────────────── */}
+          {}
           {activeTab === 'return' && (
             <div className="animate-in slide-in-from-left-8 duration-300">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">

@@ -1,8 +1,5 @@
 const Book = require('../models/Book');
 
-// @desc    Get all books
-// @route   GET /api/books
-// @access  Public
 const getBooks = async (req, res) => {
   try {
     const books = await Book.find({});
@@ -12,9 +9,6 @@ const getBooks = async (req, res) => {
   }
 };
 
-// @desc    Get single book
-// @route   GET /api/books/:id
-// @access  Public
 const getBookById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
@@ -29,9 +23,6 @@ const getBookById = async (req, res) => {
   }
 };
 
-// @desc    Create a book
-// @route   POST /api/books
-// @access  Private/Admin
 const createBook = async (req, res) => {
   try {
     const { title, author, isbn, category, totalCopies, description } = req.body;
@@ -60,9 +51,6 @@ const createBook = async (req, res) => {
   }
 };
 
-// @desc    Update a book
-// @route   PUT /api/books/:id
-// @access  Private/Admin
 const updateBook = async (req, res) => {
   try {
     const { title, author, isbn, category, totalCopies, description } = req.body;
@@ -76,11 +64,10 @@ const updateBook = async (req, res) => {
       book.category = category || book.category;
       book.description = description || book.description;
 
-      // Handle total copies update and available copies logic correctly
       if (totalCopies !== undefined) {
         const diff = Number(totalCopies) - book.totalCopies;
         book.totalCopies = Number(totalCopies);
-        book.availableCopies += diff; // if diff is negative, it reduces available copies
+        book.availableCopies += diff; 
       }
 
       if (req.file) {
@@ -97,9 +84,6 @@ const updateBook = async (req, res) => {
   }
 };
 
-// @desc    Delete a book
-// @route   DELETE /api/books/:id
-// @access  Private/Admin
 const deleteBook = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);

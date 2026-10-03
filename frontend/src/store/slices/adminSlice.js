@@ -56,7 +56,7 @@ const adminSlice = createSlice({
   initialState: {
     stats: null,
     students: [],
-    studentDetails: null, // Holds profile + array of issue records
+    studentDetails: null, 
     isLoading: false,
     isError: false,
     message: ''
@@ -70,7 +70,7 @@ const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Dashboard Stats
+      
       .addCase(getDashboardStats.pending, (state) => { state.isLoading = true; })
       .addCase(getDashboardStats.fulfilled, (state, action) => {
         state.isLoading = false; state.stats = action.payload;
@@ -78,7 +78,7 @@ const adminSlice = createSlice({
       .addCase(getDashboardStats.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // Students List
+      
       .addCase(getStudents.pending, (state) => { state.isLoading = true; })
       .addCase(getStudents.fulfilled, (state, action) => {
         state.isLoading = false; state.students = action.payload;
@@ -86,7 +86,7 @@ const adminSlice = createSlice({
       .addCase(getStudents.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // Student Details
+      
       .addCase(getStudentDetails.pending, (state) => { state.isLoading = true; })
       .addCase(getStudentDetails.fulfilled, (state, action) => {
         state.isLoading = false; state.studentDetails = action.payload;
@@ -94,9 +94,9 @@ const adminSlice = createSlice({
       .addCase(getStudentDetails.rejected, (state, action) => {
         state.isLoading = false; state.isError = true; state.message = action.payload;
       })
-      // Approve Student
+      
       .addCase(approveStudent.pending, (state) => { 
-        // Do not set isLoading to true here, so the UI doesn't flash a loader
+        
       })
       .addCase(approveStudent.fulfilled, (state, action) => {
         const index = state.students.findIndex(s => s._id === action.payload._id);

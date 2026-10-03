@@ -16,7 +16,7 @@ const IssueTracker = () => {
   const { issues, isLoading } = useSelector((state) => state.issue);
   
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all'); // all, active, returned, overdue
+  const [filterStatus, setFilterStatus] = useState('all'); 
 
   useEffect(() => {
     dispatch(getIssues());

@@ -17,7 +17,6 @@ import MyIssues from './pages/student/MyIssues';
 import StudentTracker from './pages/student/StudentTracker';
 import Profile from './pages/student/Profile';
 
-// Auth Check Component
 const PrivateRoute = ({ children, roles }) => {
   const { user } = useSelector((state) => state.auth);
   
@@ -40,7 +39,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         
-        {/* Admin Routes */}
+        {}
         <Route path="/admin/*" element={
           <PrivateRoute roles={['admin']}>
             <AdminLayout>
@@ -56,7 +55,7 @@ function App() {
           </PrivateRoute>
         } />
 
-        {/* Student Routes */}
+        {}
         <Route path="/student/*" element={
           <PrivateRoute roles={['student']}>
             <StudentLayout>

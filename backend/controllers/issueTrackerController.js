@@ -1,8 +1,5 @@
 const IssueTracker = require('../models/IssueTracker');
 
-// @desc    Submit a new issue/request
-// @route   POST /api/tracker
-// @access  Private (Student)
 const createIssue = async (req, res) => {
   try {
     const { type, description, priority } = req.body;
@@ -20,9 +17,6 @@ const createIssue = async (req, res) => {
   }
 };
 
-// @desc    Get all issues
-// @route   GET /api/tracker
-// @access  Private/Admin
 const getIssues = async (req, res) => {
   try {
     const issues = await IssueTracker.find({}).populate('student', 'name email studentId').sort({ createdAt: -1 });
@@ -32,9 +26,6 @@ const getIssues = async (req, res) => {
   }
 };
 
-// @desc    Get my issues
-// @route   GET /api/tracker/myissues
-// @access  Private (Student)
 const getMyIssues = async (req, res) => {
   try {
     const issues = await IssueTracker.find({ student: req.user._id }).sort({ createdAt: -1 });
@@ -44,9 +35,6 @@ const getMyIssues = async (req, res) => {
   }
 };
 
-// @desc    Update issue status & add admin reply
-// @route   PUT /api/tracker/:id
-// @access  Private/Admin
 const updateIssue = async (req, res) => {
   try {
     const { status, adminReply } = req.body;

@@ -18,24 +18,23 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['student', 'admin'],
-    
+    default: 'student'
   },
-  // Student specific fields
+  
   studentId: {
     type: String,
     unique: true,
-    sparse: true // Only required/unique for students
+    sparse: true 
   },
   department: {
     type: String
   },
   isApproved: {
     type: Boolean,
-    default: false // Admin must approve students
+    default: false 
   }
 }, { timestamps: true });
 
-// Hash password before saving
 userSchema.pre('save', async function() {
   if (!this.isModified('password')) {
     return;
@@ -44,7 +43,6 @@ userSchema.pre('save', async function() {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Match password
 userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

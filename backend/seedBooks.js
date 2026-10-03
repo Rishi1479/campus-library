@@ -31,7 +31,7 @@ const books = [
     isbn: '978-0135957059',
     category: 'Computer Science',
     totalCopies: 7,
-    availableCopies: 4, // Intentionally making some unavailable so the UI can show out of stock / issued UI logic if needed
+    availableCopies: 4, 
     description: 'The Pragmatic Programmer is one of those rare tech books you\'ll read, re-read, and read again over the years.',
     coverImage: ''
   },
@@ -41,7 +41,7 @@ const books = [
     isbn: '978-0735211292',
     category: 'Self-Help',
     totalCopies: 10,
-    availableCopies: 0, // Intentionally out of stock
+    availableCopies: 0, 
     description: 'No matter your goals, Atomic Habits offers a proven framework for improving--every day.',
     coverImage: ''
   },
@@ -62,7 +62,7 @@ const seedBooks = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB Connected for Book Seeding!');
 
-    await Book.deleteMany(); // Clear existing books
+    await Book.deleteMany(); 
     console.log('Existing books cleared!');
 
     await Book.insertMany(books);

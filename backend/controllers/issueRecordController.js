@@ -2,9 +2,6 @@ const IssueRecord = require('../models/IssueRecord');
 const Book = require('../models/Book');
 const User = require('../models/User');
 
-// @desc    Issue a book to a student manually
-// @route   POST /api/issues
-// @access  Private/Admin
 const issueBook = async (req, res) => {
   try {
     const { studentId, bookId } = req.body;
@@ -15,7 +12,6 @@ const issueBook = async (req, res) => {
       dueDate.setDate(dueDate.getDate() + 14);
     }
 
-    // Check if book exists and has available copies
     const book = await Book.findById(bookId);
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });
@@ -24,13 +20,11 @@ const issueBook = async (req, res) => {
       return res.status(400).json({ message: 'No copies available' });
     }
 
-    // Check if student exists
     const student = await User.findById(studentId);
     if (!student || student.role !== 'student') {
       return res.status(404).json({ message: 'Student not found' });
     }
 
-    // Create issue record
     const issueRecord = await IssueRecord.create({
       book: bookId,
       student: studentId,
@@ -38,7 +32,6 @@ const issueBook = async (req, res) => {
       status: 'issued'
     });
 
-    // Reduce available copies
     book.availableCopies -= 1;
     await book.save();
 
@@ -48,9 +41,6 @@ const issueBook = async (req, res) => {
   }
 };
 
-// @desc    Return a book
-// @route   PUT /api/issues/:id/return
-// @access  Private/Admin
 const returnBook = async (req, res) => {
   try {
     const issueRecord = await IssueRecord.findById(req.params.id);
@@ -63,7 +53,6 @@ const returnBook = async (req, res) => {
       return res.status(400).json({ message: 'Book is already returned' });
     }
 
-    // Calculate Fine (1 rupee per day overdue)
     const returnDate = new Date();
     let fineAmount = 0;
     
@@ -73,13 +62,11 @@ const returnBook = async (req, res) => {
       fineAmount = diffDays * 1;
     }
 
-    // Mark as returned
     issueRecord.status = 'returned';
     issueRecord.returnDate = returnDate;
     issueRecord.fine = fineAmount;
     await issueRecord.save();
 
-    // Increase available copies
     const book = await Book.findById(issueRecord.book);
     if (book) {
       book.availableCopies += 1;
@@ -92,9 +79,6 @@ const returnBook = async (req, res) => {
   }
 };
 
-// @desc    Get all issue records
-// @route   GET /api/issues
-// @access  Private/Admin
 const getIssues = async (req, res) => {
   try {
     const issues = await IssueRecord.find({}).populate('book', 'title isbn category').populate('student', 'name email studentId');
@@ -104,9 +88,6 @@ const getIssues = async (req, res) => {
   }
 };
 
-// @desc    Get my issue records (for logged in student)
-// @route   GET /api/issues/myissues
-// @access  Private
 const getMyIssues = async (req, res) => {
   try {
     const issues = await IssueRecord.find({ student: req.user._id }).populate('book', 'title author coverImage');
@@ -116,15 +97,11 @@ const getMyIssues = async (req, res) => {
   }
 };
 
-// @desc    Request a book by a student
-// @route   POST /api/issues/request
-// @access  Private
 const requestBook = async (req, res) => {
   try {
     const { bookId } = req.body;
     const studentId = req.user._id;
 
-    // Check if book exists and has available copies
     const book = await Book.findById(bookId);
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });
@@ -133,7 +110,6 @@ const requestBook = async (req, res) => {
       return res.status(400).json({ message: 'No copies available' });
     }
 
-    // Check if student already requested or issued this book
     const existingIssue = await IssueRecord.findOne({
       book: bookId,
       student: studentId,
@@ -144,7 +120,6 @@ const requestBook = async (req, res) => {
       return res.status(400).json({ message: `You already have this book ${existingIssue.status}` });
     }
 
-    // Create issue record
     const issueRecord = await IssueRecord.create({
       book: bookId,
       student: studentId,
@@ -157,9 +132,6 @@ const requestBook = async (req, res) => {
   }
 };
 
-// @desc    Approve a book request
-// @route   PUT /api/issues/:id/approve
-// @access  Private/Admin
 const approveIssueRequest = async (req, res) => {
   try {
     const issueRecord = await IssueRecord.findById(req.params.id);
@@ -189,7 +161,6 @@ const approveIssueRequest = async (req, res) => {
     
     await issueRecord.save();
 
-    // Populate needed fields for frontend update
     const populatedRecord = await IssueRecord.findById(issueRecord._id)
       .populate('book', 'title isbn category author coverImage')
       .populate('student', 'name email studentId');
